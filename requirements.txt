@@ -1,0 +1,8 @@
+asgiref==3.6.0
+colorama==0.4.4
+Django<=4.0.4
+django-filter==21.1
+shortuuid==1.0.9
+whitenoise==6.0.0
+sqlparse==0.4.3
+tzdata==2023.3

@@ -1,0 +1,119 @@
+{% extends 'web_core/main.html' %}
+
+{% block content %}
+<style>
+    .row.sub {
+        margin-top: 32px;
+    }
+
+    .col-md-2 {
+        padding: 0;
+    }
+
+    .col-md-10 {
+        margin-top: 50px;
+    }
+
+    .card-body {
+        padding-bottom: 0px;
+    }
+
+    .table-title {
+        text-align: center;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .small-content {
+        width: 150px;
+    }
+
+    .mid-content {
+        width: 240px;
+    }
+
+    .large-content {
+        width: 450px;
+    }
+
+    .table-head {
+        color: #ffff;
+        background-color: #399;
+    }
+
+    .btn-text-right {
+        text-align: right;
+    }
+
+    .btn.add-btn {
+        font-weight: bold;
+        margin-bottom: 8px;
+        margin-right: 20px;
+        color: #fff;
+        background-color: #399;
+        border-radius: 18px;
+
+    }
+
+    .btn:hover {
+        background-color: #fff;
+        color: #399;
+        border-color: #399;
+        border-width: 1px;
+    }
+
+    input[type=submit] {
+        font-weight: bold;
+        background-color: #399;
+        border-radius: 6px;
+        border-width: 0px;
+        color: white;
+        padding: 4px 14px;
+        margin: auto;
+        margin-top: 5px;
+    }
+
+    .errorlist {
+        font-weight: bold;
+        color: red;
+        list-style-type: none;
+    }
+</style>
+<h2 class="table-title" style>DANH SÁCH YÊU CẦU MUA HÀNG</h2>
+{% load index %}
+{% if request.user|first_group_name == 'khac' %}
+<div class="row sub">
+    <div class="col">
+        <div class="btn-text-right">
+            <a class='btn add-btn' href="{% url 'quanli_them_pr'%}">Tạo yêu cầu mua hàng</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+<div class="card card-body">
+    <table class='table table-sm'>
+        <tr class="table-head">
+            <th class="small-content">Mã PR</th>
+            <th class="large-content">Tiêu đề</th>
+            <th class="small-content">Phòng ban</th>
+            <th class="mid-content">Tên người tạo</th>
+            <th class="mid-content">Trạng thái</th>
+            <th class="mid-content">Thời gian tạo</th>
+        </tr>
+        {% for pr in dspr %}
+        <tr>
+            <td class="small-content">{{pr.ma_PR}}</td>
+            <td class="large-content">{{pr.ten_PR}}</td>
+            <td class="small-content">{{pr.ma_nhan_vien_tao.phong_ban}}</td>
+            <td class="mid-content">{{pr.ma_nhan_vien_tao.ho_ten}}</td>
+            <td class="mid-content"><a href="{% url 'quanli_xem_pr' pr.ma_PR %}">{{pr.trang_thai}}</a></td>
+            <td class="mid-content">{{pr.ngay_tao|date:"d/m/Y"}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

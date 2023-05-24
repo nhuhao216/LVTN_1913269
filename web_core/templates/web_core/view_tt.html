@@ -1,0 +1,148 @@
+{% extends 'web_core/main.html' %}
+
+{% block content %}
+
+<style>
+    .col-md-2 {
+        padding: 0;
+    }
+
+    .col-md-10 {
+        margin-top: 5px;
+    }
+
+    .card-body {
+        padding-bottom: 0px;
+    }
+
+    .table-title {
+        text-align: center;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+        text-align: left;
+    }
+
+    .small-content {
+        width: 150px;
+    }
+
+    .mid-content {
+        width: 250px;
+    }
+
+    .large-content {
+        width: 450px;
+    }
+
+    .table-head {
+        color: #ffff;
+        background-color: #399;
+    }
+
+    .btn.edit-btn {
+        font-weight: bold;
+        background-color: rgb(255, 204, 0);
+        border-color: rgb(255, 204, 0);
+        border-radius: 6px;
+        border-width: 1px;
+        color: black;
+        padding: 10px 14px;
+        margin: auto;
+        right: 0;
+    }
+    
+    .btn.back-btn {
+        font-weight: bold;
+        background-color: white;
+        border-color: black;
+        border-radius: 6px;
+        border-width: 1px;
+        color: black;
+        padding: 10px 14px;
+        margin: auto;
+        right: 0;
+    }
+
+    .form-btn {
+        padding-top: 2%;
+        padding-bottom: 2%;
+        display: flex;
+        justify-content: center;
+    }
+</style>
+<h2 class="table-title" style>THÔNG TIN THANH TOÁN</h2>
+<div class="card card-body">
+    <table class="table table-sm tt">
+        <tr>
+            <th class="mid-content">Số PO</th>
+            <td class="mid-content">{{tt.ma_PO.ma_PO}}</td>
+            <th class="mid-content">Số PR</th>
+            <th class="mid-content">{{tt.ma_PO.ma_PR}}</th>
+        </tr>
+        <tr>
+            <th class="mid-content">Hàng hoá</th>
+            <td class="mid-content">{{tt.ma_PO.ma_hang_hoa.ten_hang_hoa}}</td>
+            <th class="mid-content">Mã hàng hoá</th>
+            <th class="mid-content">{{tt.ma_PO.ma_hang_hoa.ma_HH}}</th>
+        </tr>
+        <tr>
+            <th class="mid-content">Nhà cung cấp</th>
+            <td class="mid-content">{{tt.ma_PO.ma_ncc.ten_doanh_nghiep}}</td>
+            <th class="mid-content">Công nợ</th>
+            <td class="mid-content">{{tt.ma_PO.ma_ncc.cong_no}}</td>
+        </tr>
+        <tr>
+            <th class="mid-content">Ngày đặt hàng</th>
+            <td class="mid-content">{{po.ngay_tao|date:"d/m/Y"}}</td>
+            <th class="mid-content">Ngày nhận hàng</th>
+            <th class="mid-content">{{po.ngay_du_kien_nhan|date:"d/m/Y"}}</th>
+        </tr>
+        <tr>
+            <th class="mid-content">Số lượng</th>
+            <td class="mid-content">{{tt.ma_PO.so_luong}}</td>
+            <th class="mid-content">Số tiền thanh toán</th>
+            <td class="mid-content">{{tt.ma_PO.so_tien_thanh_toan}}</td>
+        </tr>
+        <tr>
+            <th class="mid-content">Thông tin chuyển khoản</th>
+            <td class="mid-content">{{tt.ma_ncc.stk}}</td>
+            <th class="mid-content"></th>
+            <td class="mid-content"></td>
+        </tr>
+        <tr>
+            <th class="mid-content">Nhân viên thu mua</th>
+            <td class="mid-content">{{tt.ma_nhan_vien_tao.ho_ten}}</td>
+            <th class="mid-content">Nhân viên kế toán</th>
+            <td class="mid-content">{{tt.ma_nhan_vien_tt.ho_ten}}</td>
+        </tr>
+        <tr>
+            <th class="mid-content">Hợp đồng</th>
+            <td class="mid-content">{{tt.ma_HD}}</td>
+            <th class="mid-content"></th>
+            <td class="mid-content"></td>
+        </tr>
+        <tr>
+            <th class="mid-content">Trạng thái thanh toán</th>
+            <td class="mid-content">Đã thanh toán {{tt.so_tien}} | {{tt.trang_thai}}</td>
+            <th class="mid-content"></th>
+            <td class="mid-content"></td>
+        </tr>
+        <tr>
+            <th class="mid-content">Chứng từ thanh toán</th>
+            <td class="mid-content">{{tt.chung_tu}}</td>
+            <th class="mid-content"></th>
+            <td class="mid-content"></td>
+        </tr>
+    </table>
+</div>
+<div class="form-btn">
+    {% load index %}
+    {% if request.user|first_group_name == 'ketoan' and 'Đã hoàn thành' not in tt.trang_thai %}
+    <a class="btn edit-btn" href="{% url 'quanli_capnhat_tt' tt.ma_TT %}">Cập nhật trạng thái</a>
+    {% endif %}
+    <a class='btn back-btn' href="{% url 'quanli_dstt' %}">Trở lại</a>
+</div>
+{% endblock %}

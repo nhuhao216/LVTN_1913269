@@ -1,0 +1,77 @@
+<style>
+    .my-navbar.fixed-left {
+        position: fixed;
+        top: 72px;
+        left: 0;
+        bottom: 0;
+        padding: 0;
+        z-index: 1;
+        width: 253px;
+        background: #fff;
+        border-right: 1px solid #399;
+        flex-flow: column nowrap;
+        align-items: flex-start;
+    }
+
+    .navbar-nav.my-sidebar-nav {
+        flex-direction: column;
+    }
+
+    .my-sidebar-item {
+        color: #399;
+        font-weight: bold;
+        padding: 0 30px !important;
+        margin: 0 5px;
+        text-transform: uppercase;
+        height: 88px;
+        line-height: 88px;
+        border-radius: 10px;
+        width: 240px;
+    }
+
+    .my-sidebar-item:hover:not(.my-sidebar-active) {
+        color: #399;
+        opacity: 0.7;
+    }
+
+    .my-sidebar-active,
+    .my-sidebar-active:hover {
+        color: #fff;
+        background-color: #399;
+    }
+</style>
+
+<nav class="navbar navbar-expand-md my-navbar fixed-left">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    {% load index %}
+    {% with request.resolver_match.url_name as url_name %}
+    <div class="navbar-nav my-sidebar-nav">
+        {% if request.user|first_group_name != 'ketoan' %}
+            <a class="nav-item nav-link my-sidebar-item {% if 'pr' in url_name %}my-sidebar-active{% endif %}"
+                href="{% url 'quanli_dspr' %}">Yêu cầu mua hàng</a>
+            <a class="nav-item nav-link my-sidebar-item {% if 'po' in url_name %}my-sidebar-active{% endif %}"
+                href="{% url 'quanli_dspo' %}">Đơn hàng</a>
+            <a class="nav-item nav-link my-sidebar-item {% if 'hh' in url_name %}my-sidebar-active{% endif %}"
+                href="{% url 'quanli_dshh' %}">Danh sách Hàng hoá</a>
+            {% if request.user|first_group_name == 'thumua' or request.user|first_group_name == 'quanly' %}
+                <a class="nav-item nav-link my-sidebar-item {% if 'ncc' in url_name %}my-sidebar-active{% endif %}"
+                href="{% url 'quanli_dsncc' %}">Nhà cung cấp</a>
+                <a class="nav-item nav-link my-sidebar-item {% if 'hd' in url_name %}my-sidebar-active{% endif %}"
+                href="{% url 'quanli_dshd' %}">Hợp đồng</a>
+                <a class="nav-item nav-link my-sidebar-item {% if 'tt' in url_name %}my-sidebar-active{% endif %}"
+                href="{% url 'quanli_dstt' %}">Thanh toán</a>
+            {% endif %}
+        {% else %}
+            <a class="nav-item nav-link my-sidebar-item {% if 'po' in url_name %}my-sidebar-active{% endif %}"
+            href="{% url 'quanli_dspo' %}">Đơn hàng</a>
+            <a class="nav-item nav-link my-sidebar-item {% if 'hd' in url_name %}my-sidebar-active{% endif %}"
+            href="{% url 'quanli_dshd' %}">Hợp đồng</a>
+            <a class="nav-item nav-link my-sidebar-item {% if 'tt' in url_name %}my-sidebar-active{% endif %}"
+            href="{% url 'quanli_dstt' %}">Thanh toán</a>
+        {% endif %}
+    </div>
+    {% endwith %}
+</nav>

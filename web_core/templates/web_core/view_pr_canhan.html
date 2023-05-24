@@ -1,0 +1,149 @@
+{% extends 'web_core/main.html' %}
+
+{% block content %}
+
+<style>
+    .col-md-2 {
+        padding: 0;
+    }
+
+    .col-md-10 {
+        margin-top: 50px;
+    }
+
+    .card-body {
+        padding-bottom: 0px;
+    }
+
+    .table-title {
+        text-align: center;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .small-content {
+        width: 150px;
+    }
+
+    .mid-content {
+        width: 250px;
+    }
+
+    .large-content {
+        width: 450px;
+    }
+
+    .table-head {
+        color: #ffff;
+        background-color: #399;
+    }
+
+    .btn.edit-btn {
+        font-weight: bold;
+        border-radius: 6px;
+        border-width: 1px;
+        padding: 10px 14px;
+        margin: auto;
+        right: 0;
+        color: black;
+        background-color: rgb(255, 204, 0);
+    }
+
+    .btn.back-btn {
+        font-weight: bold;
+        background-color: white;
+        border-color: black;
+        border-radius: 6px;
+        border-width: 1px;
+        color: black;
+        padding: 10px 14px;
+        margin: auto;
+        right: 0;
+    }
+
+    .form-btn {
+        padding-top: 1%;
+        display: flex;
+        justify-content: center;
+    }
+</style>
+<h2 class="table-title" style>CHI TIẾT PR</h2>
+<div class="card card-body">
+    <table class="table table-sm pr-canhan">
+        <tr>
+            <th class="mid-content">Mã PR</th>
+            <td class="mid-content">{{pr.ma_PR}}</td>
+            <th class="small-content"></th>
+            <th class="large-content">Tiêu đề</th>
+            <td class="large-content">{{pr.ten_PR}}</td>
+        </tr>
+        <tr>
+            <th class="mid-content">Phòng ban</th>
+            <td class="mid-content">{{pr.ma_nhan_vien_tao.phong_ban}}</td>
+            <th class="small-content"></th>
+            <th class="mid-content">Tên người tạo</th>
+            <td class="mid-content">{{pr.ma_nhan_vien_tao.ho_ten}}</td>                    
+        </tr>
+        <tr>
+            <th class="mid-content">Thời gian tạo</th>
+            <td class="mid-content">{{pr.ngay_tao|date:"d/m/Y"}}</td>
+            <th class="small-content"></th>
+            <th class="mid-content">Tên người phụ trách</th>
+            <td class="mid-content">{{pr.ma_nhan_vien_phu_trach.ho_ten}}</td>
+        </tr>
+    </table>
+    <table class="table table-sm pr_hh">
+        <tr class="table-head">
+            <th class="mid-content">Mã hàng hoá</th>
+            <th class="small-content">Số lượng</th>
+            <th class="mid-content">Ngày cần hàng</th>
+            <th class="large-content">Yêu cầu</th>
+            <th class="mid-content">Trạng thái</th>
+        </tr>
+        {% for line, ma_PO in pr_hh_po %}
+        <tr>
+            <td class="mid-content">{{line.ma_hang_hoa}}</td>
+            <td class="small-content">{{line.so_luong}}</td>
+            <td class="mid-content">{{line.ngay_can_hang|date:"d/m/Y"}}</td>
+            <td class="large-content">{{line.yeu_cau}}</td>
+            {% load index %}
+            {% if request.user|first_group_name != 'thumua' %}
+            <td class="mid-content">
+                {% if line.trang_thai == 'Chờ phân công' %}
+                <a  href="{% url 'canhan_sua_pr' pr.ma_PR line.ma_hang_hoa.ma_HH %}">
+                    {{line.trang_thai}}
+                </a>
+                {% elif ma_PO %}
+                <a  href="{% url 'canhan_xem_po' ma_PO %}">
+                    {{line.trang_thai}}
+                </a>
+                {% else %}
+                {{line.trang_thai}}
+                {% endif %}
+            </td>
+            {% else %}
+            <td class="mid-content">
+                {% if not ma_PO %}
+                <a  href="{% url 'canhan_them_po' pr.ma_PR line.ma_hang_hoa.ma_HH %}">
+                    Chưa tạo đơn hàng
+                </a>
+                {% else %}
+                <a  href="{% url 'canhan_xem_po' ma_PO %}">
+                    {{line.trang_thai}}
+                </a>
+                {% endif %}
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="form-btn">
+    <!-- <a class="btn edit-btn" href="{% url 'canhan_dspr' %}">Chỉnh sửa</a> -->
+    <a class='btn back-btn' href="{% url 'canhan_dspr' %}">Trở lại</a>
+</div>
+{% endblock %}

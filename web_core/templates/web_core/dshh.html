@@ -1,0 +1,103 @@
+{% extends 'web_core/main.html' %}
+
+{% block content %}
+<style>
+    .row.sub {
+        margin-top: 32px;
+    }
+
+    .col-md-2 {
+        padding: 0;
+    }
+
+    .col-md-10 {
+        margin-top: 50px;
+    }
+
+    .card-body {
+        padding-bottom: 0px;
+    }
+
+    .table-title {
+        text-align: center;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .small-content {
+        width: 150px;
+    }
+
+    .mid-content {
+        width: 240px;
+    }
+
+    .large-content {
+        width: 450px;
+    }
+
+    .table-head {
+        color: #ffff;
+        background-color: #399;
+    }
+
+    .btn-text-right {
+        text-align: right;
+    }
+
+    .btn.add-btn {
+        font-weight: bold;
+        margin-bottom: 8px;
+        margin-right: 20px;
+        color: #fff;
+        background-color: #399;
+        border-radius: 18px;
+
+    }
+
+    .btn:hover {
+        background-color: #fff;
+        color: #399;
+        border-color: #399;
+        border-width: 1px;
+    }
+
+    input[type=submit] {
+        font-weight: bold;
+        background-color: #399;
+        border-radius: 6px;
+        border-width: 0px;
+        color: white;
+        padding: 4px 14px;
+        margin: auto;
+        margin-top: 5px;
+    }
+
+    .errorlist {
+        font-weight: bold;
+        color: red;
+        list-style-type: none;
+    }
+</style>
+<h2 class="table-title" style>DANH SÁCH HÀNG HOÁ</h2>
+<div class="card card-body">
+    <table class='table table-sm'>
+        <tr class="table-head">
+            <th class="small-content">Mã hàng hoá</th>
+            <th class="mid-content">Tên hàng hoá</th>
+            <th class="small-content">Số lượng tồn</th>
+        </tr>
+        {% for hh in dshh %}
+        <tr>
+            <td class="small-content">{{hh.ma_HH}}</td>
+            <td class="small-content">{{hh.ten_hang_hoa}}</td>
+            <td class="mid-content">{{hh.so_luong_ton}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

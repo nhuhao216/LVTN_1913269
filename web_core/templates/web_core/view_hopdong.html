@@ -1,0 +1,152 @@
+{% extends 'web_core/main.html' %}
+
+{% block content %}
+
+<style>
+    .col-md-2 {
+        padding: 0;
+    }
+
+    .col-md-10 {
+        margin-top: 50px;
+    }
+
+    .card-body {
+        padding-bottom: 0px;
+    }
+
+    .table-title {
+        text-align: center;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+        text-align: left;
+    }
+
+    .small-content {
+        width: 150px;
+    }
+
+    .mid-content {
+        width: 250px;
+    }
+
+    .large-content {
+        width: 450px;
+    }
+
+    .table-head {
+        color: #ffff;
+        background-color: #399;
+    }
+
+    .btn.add-btn {
+        font-weight: bold;
+        background-color: #399;
+        border-color: #399;
+        border-radius: 6px;
+        border-width: 1px;
+        color: #fff;
+        padding: 10px 14px;
+        margin: auto;
+        right: 0;
+    }
+    
+    .btn.back-btn {
+        font-weight: bold;
+        background-color: white;
+        border-color: black;
+        border-radius: 6px;
+        border-width: 1px;
+        color: black;
+        padding: 10px 14px;
+        margin: auto;
+        right: 0;
+    }
+
+    .form-btn {
+        padding-top: 1%;
+        display: flex;
+        justify-content: center;
+    }
+</style>
+<h2 class="table-title" style>THÔNG TIN HỢP ĐỒNG</h2>
+<div class="card card-body">
+    <table class="table table-sm ncc">
+        <tr>
+            <th class="small-content"></th>
+            <th class="small-content">Tên doanh nghiệp</th>
+            <td class="small-content">{{hd.ma_ncc.ten_doanh_nghiep}}</td>
+            <th class="small-content"></th>
+            <td class="small-content"></td>
+        </tr>
+        <tr>
+            <th class="small-content"></th>
+            <th class="small-content">Hàng hoá:</th>
+            <td class="small-content"></td>
+            <td class="small-content"></td>
+            <td class="small-content"></td>
+        </tr>
+        {% for hh in hd.ma_hang_hoa.all %}
+            <tr>
+                <th class="small-content"></th>
+                <th class="small-content"></th>
+                <td class="small-content">{{hh}}</td>
+                <th class="small-content"></th>
+                <td class="small-content"></td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <th class="small-content"></th>
+            <th class="small-content">Nhân viên phụ trách</th>
+            <td class="small-content">{{hd.ma_nhan_vien_tao.ho_ten}}</td>
+            <th class="small-content"></th>
+            <td class="small-content"></td>
+        </tr>
+        <tr>
+            <th class="small-content"></th>
+            <th class="small-content">Trạng thái hợp đồng</th>
+            <td class="small-content">{{hd.trang_thai}}</td>
+            <th class="small-content"></th>
+            <td class="small-content"></td>
+        </tr>
+        <tr>
+            <th class="small-content"></th>
+            <th class="small-content">File</th>
+            <td class="small-content">{{hd.file_hop_dong}}</td>
+            <th class="small-content">Quản lý duyệt</th>
+            <td class="small-content">{{hd.ma_quan_ly_duyet.ho_ten}}</td>
+        </tr>
+        <tr>
+            <th class="small-content"></th>
+            <th class="small-content">Ngày hiệu lực</th>
+            <td class="small-content">{{hd.ngay_hieu_luc|date:"d/m/Y"}}</td>
+            <th class="small-content"></th>
+            <td class="small-content"></td>
+        </tr>
+        <tr>
+            <th class="small-content"></th>
+            <th class="small-content">Ngày hết hạn</th>
+            <td class="small-content">{{hd.ngay_het_han|date:"d/m/Y"}}</td>
+            <th class="small-content"></th>
+            <td class="small-content"></td>
+        </tr>
+        <tr>
+            <th class="small-content"></th>
+            <th class="small-content">Phụ lục hợp đồng</th>
+            <td class="small-content">{{hd.phu_luc_hop_dong}}</td>
+            <th class="small-content"></th>
+            <td class="small-content"></td>
+        </tr>
+    </table>
+</div>
+<div class="form-btn">
+    {% load index %}
+    {% if request.user|first_group_name == 'quanly' and not hd.ma_quan_ly_duyet %}
+    <a class="btn add-btn" href="{% url 'quanli_duyet_hd' hd.ma_HD %}">Phê duyệt</a>
+    {% endif %}
+    <a class='btn back-btn' href="{% url 'quanli_dshd' %}">Trở lại</a>
+</div>
+{% endblock %}

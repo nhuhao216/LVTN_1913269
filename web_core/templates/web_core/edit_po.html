@@ -1,0 +1,119 @@
+{% extends 'web_core/main.html' %}
+{$ load static %}
+{% block content %}
+
+<style>
+    .table-title {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .table {
+        margin-bottom: 0px;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+        text-align: left;
+    }
+
+    .small-content {
+        width: 150px;
+    }
+
+    .mid-content {
+        width: 250px;
+    }
+
+    .large-content {
+        width: 450px;
+    }
+
+    .table-head {
+        color: #ffff;
+        background-color: #399;
+    }
+
+    .errorlist {
+        font-weight: bold;
+        color: red;
+        list-style-type: none;
+    }
+
+    input[type=submit] {
+        font-weight: bold;
+        background-color: #399;
+        border-width: 0px;
+        border-radius: 6px;
+        color: white;
+        padding: 10px 14px;
+        margin: auto;
+        margin-top: 5px;
+    }
+
+    .btn.back-btn {
+        font-weight: bold;
+        background-color: white;
+        border-color: black;
+        border-radius: 6px;
+        border-width: 1px;
+        color: black;
+        padding: 10px 14px;
+        margin: auto;
+        right: 0;
+    }
+
+    .form-btn {
+        padding-top: 1%;
+        display: flex;
+        justify-content: center;
+    }
+</style>
+<h3 class="table-title">CHỈNH SỬA ĐƠN HÀNG</h3>
+<div class="card card-body">
+    <table class="table table-sm pr">
+        <tr>
+            <th class="large-content"></th>
+            <th class="small-content">Tiêu đề</th>
+            <td class="large-content">{{pr_hh.ma_PR.ten_PR}}</td>
+            <th class="small-content"></th>
+        </tr>
+        <tr>
+            <th class="large-content"></th>
+            <th class="small-content">Thời gian tạo PR</th>
+            <td class="large-content">{{pr_hh.ma_PR.ngay_tao|date:"d/m/Y"}}</td>
+            <th class="small-content"></th>
+        </tr>
+        <tr>
+            <th class="large-content"></th>
+            <th class="small-content">Số lượng yêu cầu:</th>
+            <td class="large-content">{{pr_hh.so_luong}}</td>
+            <th class="small-content"></th>
+        </tr>
+        <tr>
+            <th class="large-content"></th>
+            <th class="small-content">Ngày cần hàng</th>
+            <td class="large-content">{{pr_hh.ngay_can_hang|date:"d/m/Y"}}</td>
+            <th class="small-content"></th>
+        </tr>
+        <tr>
+            <th class="large-content"></th>
+            <th class="small-content">Yêu cầu</th>
+            <td class="large-content">{{pr_hh.yeu_cau}}</td>
+            <th class="small-content"></th>
+        </tr>
+    </table>
+</div>
+<div class="card card-body">
+    <div class="d-flex justify-content-center form_container">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <div class="form-btn">
+                <input type="submit" value="Xác nhận">
+                <a class='btn back-btn' href="{% url 'canhan_xem_po' form.ma_PO.value %}">Trở lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
