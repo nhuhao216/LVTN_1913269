@@ -21,6 +21,19 @@ from django.forms import inlineformset_factory, modelform_factory
 # Create your views here.
 
 ### UTILS
+def update_hd_status():
+    dshd = HOPDONG.objects.all().order_by('-ngay_tao')
+    now = datetime.now()
+    for hd in dshd:
+        if not hd.ma_quan_ly_duyet :
+            hd.trang_thai = 'Chờ phê duyệt'
+        elif not hd.ngay_hieu_luc or not hd.ngay_het_han:
+            hd.trang_thai = 'Đã duyệt'
+        elif hd.ngay_het_han < now.date():
+            hd.trang_thai = 'Đã hết hạn'
+        else:
+            hd.trang_thai = 'Đang có hiệu lực'
+        hd.save()
 
 def update_all_po_status():
     dspo = PO.objects.all().order_by('-ngay_tao')
@@ -74,6 +87,7 @@ def loginPage(request):
             login(request, user)
             update_pr_status()
             update_all_po_status()
+            update_hd_status()
             return redirect('/dspr')
         else:
             messages.info(request,'Username Or Password was incorrect')
@@ -245,7 +259,6 @@ def dspo_canhan(request):
 
 @login_required(login_url='login')
 def view_po(request, ma_PO):
-    update_all_po_status()
     if ma_PO is None:
         return redirect('/dspo')
     po = PO.objects.get(ma_PO=ma_PO)
@@ -256,7 +269,6 @@ def view_po(request, ma_PO):
 @non_admin_only
 @login_required(login_url='login')
 def view_po_canhan(request, ma_PO):
-    update_all_po_status()
     if ma_PO is None:
         return redirect('/dspo_canhan')
     po = PO.objects.get(ma_PO=ma_PO)
@@ -433,6 +445,7 @@ def edit_ncc(request, ma_NCC):
 @allowed_users(['thumua', 'quanly','ketoan'])
 @login_required(login_url='login')
 def dshd(request):
+    update_hd_status()
     dshd = HOPDONG.objects.all().order_by('-ngay_cap_nhat')
     context = {'dshd':dshd}
 
@@ -441,6 +454,7 @@ def dshd(request):
 @allowed_users(['thumua', 'quanly'])
 @login_required(login_url='login')
 def dshd_canhan(request):
+    update_hd_status()
     nhanvien = NHANVIEN.objects.get(user=request.user)
 
     dshd = HOPDONG.objects.filter(ma_nhan_vien_tao=nhanvien.ma_NV).order_by('-ngay_cap_nhat')
