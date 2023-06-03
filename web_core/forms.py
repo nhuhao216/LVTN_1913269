@@ -139,7 +139,7 @@ class HOPDONG_form(ModelForm):
     class Meta:
         model = HOPDONG
         fields = '__all__'
-        exclude = ['ngay_cap_nhat','ngay_tao','ma_quan_ly_duyet']
+        exclude = ['ngay_cap_nhat','ngay_tao','ma_quan_ly_duyet','trang_thai']
         widgets = {
             'ma_nhan_vien_tao': TextInput(
                 attrs={'readonly': True}
@@ -163,7 +163,7 @@ class THANHTOAN_form(ModelForm):
     class Meta:
         model = THANHTOAN
         fields = '__all__'
-        exclude = ['ngay_tao','ngay_cap_nhat','ma_nhan_vien_tt','so_tien']
+        exclude = ['ngay_tao','ngay_cap_nhat','ma_nhan_vien_tt','so_tien','trang_thai']
         widgets = {
             'ma_nhan_vien_tao': TextInput(
                 attrs={'readonly': True}

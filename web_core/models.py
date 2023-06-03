@@ -11,6 +11,8 @@ class NHANVIEN(models.Model):
         ('Thu mua', 'Thu mua'),
         ('Kho', 'Kho'),
         ('Kế toán', 'Kế toán'),
+        ('R&D', 'R&D'),
+        ('Production', 'Production'),
         ('Khác', 'Khác')
     )
     danh_muc_chuc_vu = (
@@ -104,7 +106,7 @@ class HOPDONG(models.Model):
     ngay_het_han = models.DateField('Ngày hết hạn', editable=True, blank=True, null=True)
     file_hop_dong = models.CharField('File hợp đồng', max_length=500,blank=True, null=True)
     phu_luc_hop_dong = models.CharField('Phụ lục hợp đồng', max_length=20000, blank=True, null=True)
-    trang_thai = models.CharField('Trạng thái hợp đồng', max_length=100, choices=danh_muc_trang_thai, default='Đang xem xét',blank=True, null=True)
+    trang_thai = models.CharField('Trạng thái hợp đồng', max_length=100, choices=danh_muc_trang_thai, default='Chờ phê duyệt',blank=True, null=True)
 
     def __str__(self):
         line = str(self.ma_HD) + ' | ' + str(self.ma_ncc.ten_doanh_nghiep)
